@@ -1,0 +1,36 @@
+{
+	"mappings":{
+		"properties":{
+			"titleId":{
+				"type":"keyword"
+			},
+			"primaryTitle":{
+				"type":"text"
+			},
+			"originalTitle":{
+				"type":"text"
+			},
+			"startYear":{
+				"type":"integer"
+			},
+			"endYear":{
+				"type":"integer"
+			},
+			"runtimeMinutes":{
+				"type":"integer"
+			},
+			"genres":{
+				"type":"keyword"
+			},
+			"avgRating":{
+				"type":"double"
+			},
+			"numVotes":{
+				"type":"integer"
+			}
+		
+			
+		}
+	}
+
+}
