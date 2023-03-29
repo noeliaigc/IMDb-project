@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Added everything done of imdb until today">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/configuration/ElasticSearchConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/configuration/ElasticSearchConfig.java" afterDir="false" />
-    </list>
+    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Indexing and cerebro working" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -101,7 +97,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680079123625</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Indexing and cerebro working">
+      <created>1680085054139</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1680085054139</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -117,7 +120,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added everything done of imdb until today" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added everything done of imdb until today" />
+    <MESSAGE value="Indexing and cerebro working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Indexing and cerebro working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
