@@ -6,9 +6,11 @@ import java.util.List;
 
 @Document(indexName = "movies")
 public class Movie {
-    private String titleId;
+    private String tconst;
+    private String titleType;
     private String primaryTitle;
     private String originalTitle;
+    private boolean isAdult;
     private int startYear;
     private int endYear;
     private int runtimeMinutes;
@@ -17,17 +19,21 @@ public class Movie {
     double avgRating;
     int numVotes;
     List<Akas> akas;
-    List<Director> directors;
-    List<Actor> actors;
+    List<Directors> directors;
+    List<Starring> starrings;
 
-    public Movie(String titleId, String primaryTitle, String originalTitle,
+    public Movie(String tconst, String titleType, String primaryTitle,
+                 String originalTitle,
+                 boolean isAdult,
                  int startYear, int endYear, int runtimeMinutes,
                  String[] genres,
                  double avgRating, int numVotes, List<Akas> akas,
-                 List<Director> directors, List<Actor> actors) {
-        this.titleId = titleId;
+                 List<Directors> directors, List<Starring> starrings) {
+        this.tconst = tconst;
+        this.titleType = titleType;
         this.primaryTitle = primaryTitle;
         this.originalTitle = originalTitle;
+        this.isAdult = isAdult;
         this.startYear = startYear;
         this.endYear = endYear;
         this.runtimeMinutes = runtimeMinutes;
@@ -36,13 +42,17 @@ public class Movie {
         this.numVotes = numVotes;
         this.akas = akas;
         this.directors = directors;
-        this.actors = actors;
+        this.starrings = starrings;
     }
 
     public Movie(){}
 
-    public String getTitleId() {
-        return titleId;
+    public String getTconst() {
+        return tconst;
+    }
+
+    public String getTitleType() {
+        return titleType;
     }
 
     public String getPrimaryTitle() {
@@ -53,6 +63,9 @@ public class Movie {
         return originalTitle;
     }
 
+    public boolean isAdult() {
+        return isAdult;
+    }
 
     public int getStartYear() {
         return startYear;
@@ -81,11 +94,11 @@ public class Movie {
         return akas;
     }
 
-    public List<Director> getDirectors() {
+    public List<Directors> getDirectors() {
         return directors;
     }
 
-    public List<Actor> getActors() {
-        return actors;
+    public List<Starring> getActors() {
+        return starrings;
     }
 }

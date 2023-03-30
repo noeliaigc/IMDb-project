@@ -1,14 +1,20 @@
 {
 	"mappings":{
 		"properties":{
-			"titleId":{
+			"tconst":{
 				"type":"keyword"
+			},
+			"titleType": {
+				"type": "text"
 			},
 			"primaryTitle":{
 				"type":"text"
 			},
 			"originalTitle":{
 				"type":"text"
+			},
+			"isAdult": {
+				"type": "boolean"
 			},
 			"startYear":{
 				"type":"integer"
@@ -28,8 +34,6 @@
 			"numVotes":{
 				"type":"integer"
 			}
-		
-			
 		}
 	}
 

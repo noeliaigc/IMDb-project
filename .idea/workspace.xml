@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Indexing and cerebro working" />
+    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Indexing and cerebro working">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/controller/ImdbController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/controller/ImdbController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/model/Actor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/model/Starring.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/model/Akas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/model/Akas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/model/Director.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/model/Directors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/model/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/model/Movie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/model/Name.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/model/Name.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/util/ImbdReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/util/ImbdReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/movieMapping.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/movieMapping.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,14 +54,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "/Users/noeliaiglesias/Documents/Sessions/imdb-project"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/noeliaiglesias/Documents/Sessions/imdb-project&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -112,7 +123,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -130,11 +153,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java</url>
           <line>52</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java</url>
-          <line>117</line>
-          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

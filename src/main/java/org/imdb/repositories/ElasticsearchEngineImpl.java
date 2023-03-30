@@ -22,7 +22,7 @@ import java.util.List;
 @Component
 public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
     private final ElasticSearchConfig elasticSearchConfig;
-    private static final String INDEX = "movies";
+    private static final String INDEX = "imdb";
 
 
     @Autowired
@@ -54,8 +54,8 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
                 for (Movie m : movies) {
                     br.operations(op -> op
                             .index(idx -> idx
-                                    .index("movies")
-                                    .id(m.getTitleId())
+                                    .index(INDEX)
+                                    .id(m.getTconst())
                                     .document(m)
                             )
                     );

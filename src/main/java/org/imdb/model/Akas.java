@@ -4,9 +4,10 @@ public class Akas {
     private String title;
     private String region;
     private String language;
-    String isOriginal;
+    private boolean isOriginal;
 
-    public Akas(String title, String region, String language, String isOriginal) {
+    public Akas(String title, String region, String language,
+                boolean isOriginal) {
         this.title = title;
         this.region = region;
         this.language = language;
@@ -28,7 +29,7 @@ public class Akas {
         return language;
     }
 
-    public String getIsOriginal() {
+    public boolean getIsOriginal() {
         return isOriginal;
     }
 }

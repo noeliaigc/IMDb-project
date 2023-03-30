@@ -71,6 +71,7 @@ public class ImbdReader {
         }
         String[] parts = basicsLine.split("\t");
         String titleId = check(parts[0]);
+        String titleType = check(parts[1]);
         String primaryTitle = check(parts[2]);
         String originalTitle = check(parts[3]);
         int isAdult = Integer.parseInt(check(parts[4]));
@@ -92,37 +93,37 @@ public class ImbdReader {
         List<Akas> akas = doAkas(titleId);
         
         //get directors
-        List<Director> directors = doDirectors(titleId);
+        List<Directors> directors = doDirectors(titleId);
 
         //getActors
-        List<Actor> actors = doActors(titleId);
+        List<Starring> starrings = doActors(titleId);
 
-        return new Movie(titleId, primaryTitle, originalTitle,
+        return new Movie(titleId, titleType, primaryTitle, originalTitle,false,
                 startYear, endYear, runtimeMinutes, genres, avgRating,
                 numVotes, akas,
-                directors, actors);
+                directors, starrings);
     }
 
     private boolean noLines() {
         return basicsLine == null;
     }
 
-    private List<Actor> doActors(String titleId) throws IOException {
-        List<Actor> actors = new ArrayList<>();
+    private List<Starring> doActors(String titleId) throws IOException {
+        List<Starring> starrings = new ArrayList<>();
         String title;
         while((title = participantLine.split("\t")[0]).equals(titleId)){
             String[] parts = participantLine.split("\t");
-            Actor actor = new Actor(new Name(parts[2]), parts[5]);
-            actors.add(actor);
+            Starring starring = new Starring(new Name(parts[2]), parts[5]);
+            starrings.add(starring);
 
             participantLine = participants.readLine();
         }
 
-        return actors;
+        return starrings;
     }
 
-    private List<Director> doDirectors(String titleId) {
-        List<Director> directors = new ArrayList<>();
+    private List<Directors> doDirectors(String titleId) {
+        List<Directors> directors = new ArrayList<>();
         String[] parts = crewLine.split("\t");
         if(parts[0].equals(titleId)){
             if(parts[1].contains(",")) {
@@ -130,16 +131,16 @@ public class ImbdReader {
                 addDirectors(directors, dir);
 
             }else{
-                Director d = new Director(parts[1]);
+                Directors d = new Directors(parts[1]);
                 directors.add(d);
             }
         }
         return directors;
     }
 
-    private void addDirectors(List<Director> directors, String[] dir) {
+    private void addDirectors(List<Directors> directors, String[] dir) {
         for(int i = 0; i < dir.length; i++){
-            Director d = new Director(dir[i]);
+            Directors d = new Directors(dir[i]);
             directors.add(d);
         }
     }
@@ -149,7 +150,11 @@ public class ImbdReader {
         String title;
         while((title = akasLine.split("\t")[0]).equals(titleId)){
             String[] parts = akasLine.split("\t");
-            Akas aka = new Akas(parts[2], parts[3], parts[4], parts[7]);
+            boolean isOriginal = true;
+            if(parts[7].equals("0")){
+                isOriginal = false;
+            }
+            Akas aka = new Akas(parts[2], parts[3], parts[4], isOriginal);
             akasList.add(aka);
             akasLine = akas.readLine();
         }
@@ -165,7 +170,7 @@ public class ImbdReader {
                 return parts;
             }
         }
-        return new String[]{"id", "0.0", "0"};
+        return new String[]{titleId, "0.0", "0"};
     }
 
     private String check(String part) {

@@ -1,13 +1,13 @@
 package org.imdb.model;
 
-public class Name {
+public class Directors {
     private String nconst;
 
-    public Name(String id) {
+    public Directors(String id) {
         this.nconst = id;
     }
 
-    public Name(){}
+    public Directors(){}
 
     public String getNconst() {
         return nconst;
