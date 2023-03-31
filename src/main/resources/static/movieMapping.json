@@ -14,7 +14,7 @@
 				"type":"text"
 			},
 			"isAdult": {
-				"type": "boolean"
+				"type":"boolean"
 			},
 			"startYear":{
 				"type":"integer"

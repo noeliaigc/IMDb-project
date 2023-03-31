@@ -4,7 +4,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.List;
 
-@Document(indexName = "movies")
+@Document(indexName = "imdb")
 public class Movie {
     private String tconst;
     private String titleType;

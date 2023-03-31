@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/index")
 public class ImdbController {
     private final ImdbService imdbService;
 
@@ -58,7 +58,7 @@ public class ImdbController {
         }
     }
 
-    @PostMapping("/movies/_doc")
+    @PostMapping("/_doc")
     public void indexDocument(@RequestBody Movie movie){
         imdbService.indexDocument(movie);
     }
