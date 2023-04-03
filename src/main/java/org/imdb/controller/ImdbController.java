@@ -82,4 +82,10 @@ public class ImdbController {
     public String getIndices(){
         return imdbService.getIndixes().toString();
     }
+
+    @GetMapping("/_search/range")
+    public ResponseEntity<List<Movie>> getRangedMovies(@RequestParam int from
+            , @RequestParam int size){
+        return ResponseEntity.ok(imdbService.getRangedMovies(from, size));
+    }
 }

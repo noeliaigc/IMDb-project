@@ -1,15 +1,12 @@
 package org.imdb.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class Name {
     private String nconst;
 
-    public Name(String id) {
-        this.nconst = id;
-    }
 
-    public Name(){}
-
-    public String getNconst() {
-        return nconst;
-    }
 }

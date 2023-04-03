@@ -1,22 +1,13 @@
 package org.imdb.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class Starring {
 
     private Name name;
     private String characters;
-    public Starring(Name name, String characters) {
-        this.name = name;
-        this.characters = characters;
-    }
 
-    public Starring(){
-    }
-
-    public String getCharacters() {
-        return characters;
-    }
-
-    public Name getName() {
-        return name;
-    }
 }

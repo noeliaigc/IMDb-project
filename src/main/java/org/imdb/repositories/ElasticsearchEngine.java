@@ -17,4 +17,6 @@ public interface ElasticsearchEngine {
     void deleteIndex();
 
     GetIndexResponse getIndexes();
+
+    List<Movie> getRangedMovies(int from, int size);
 }

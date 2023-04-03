@@ -50,6 +50,9 @@ public class ImdbServiceImpl implements ImdbService{
                     movies.add(movie);
                     counter++;
                 }
+                if(movies.size() == 179){
+                    int aux = 0;
+                }
                 if(counter == NUM_MOVIES){
                     elasticsearchEngine.indexDocuments(movies);
                     counter = 0;
@@ -58,9 +61,6 @@ public class ImdbServiceImpl implements ImdbService{
                 }
             }
             elasticsearchEngine.indexDocuments(movies);
-
-
-
 
         }catch(IOException exception){
             throw exception;
@@ -90,5 +90,10 @@ public class ImdbServiceImpl implements ImdbService{
     @Override
     public GetIndexResponse getIndixes() {
         return elasticsearchEngine.getIndexes();
+    }
+
+    @Override
+    public List<Movie> getRangedMovies(int from, int size){
+        return elasticsearchEngine.getRangedMovies(from, size);
     }
 }

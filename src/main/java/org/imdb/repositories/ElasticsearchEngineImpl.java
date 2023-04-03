@@ -22,7 +22,7 @@ import java.util.List;
 @Component
 public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
     private final ElasticSearchConfig elasticSearchConfig;
-    private static final String INDEX = "imdb";
+    private static final String INDEX = "imdb3";
 
 
     @Autowired
@@ -124,5 +124,28 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
             System.out.println("There is no index");
         }
         return null;
+    }
+
+    @Override
+    public List<Movie> getRangedMovies(int from, int size){
+
+        List<Movie> movies = new ArrayList<>();
+        try {
+            SearchResponse searchResponse =
+                    elasticSearchConfig.getElasticClient().search(i -> i
+                                    .index(INDEX)
+                                    .from(from)
+                                    .size(size),
+                    Movie.class);
+            List<Hit<Movie>> hits = searchResponse.hits().hits();
+
+            for (Hit<Movie> object : hits) {
+                movies.add(object.source());
+            }
+            return movies;
+        }catch(IOException e){
+            System.out.println("error");
+        }
+        return movies;
     }
 }

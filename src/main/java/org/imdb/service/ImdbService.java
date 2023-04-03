@@ -24,4 +24,6 @@ public interface ImdbService {
 
 
     GetIndexResponse getIndixes();
+
+    List<Movie> getRangedMovies(int from, int size);
 }
