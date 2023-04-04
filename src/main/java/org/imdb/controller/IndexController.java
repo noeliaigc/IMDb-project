@@ -2,7 +2,6 @@ package org.imdb.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.elasticsearch.http.HttpStats;
 import org.imdb.model.Movie;
 import org.imdb.service.ImdbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @RestController
 @RequestMapping("/index")
-public class ImdbController {
+public class IndexController {
     private final ImdbService imdbService;
 
     @Autowired
-    public ImdbController(ImdbService imdbService) {
+    public IndexController(ImdbService imdbService) {
         this.imdbService = imdbService;
     }
 
@@ -63,18 +61,18 @@ public class ImdbController {
         imdbService.indexDocument(movie);
     }
 
-    @GetMapping("/_search")
+    /*@GetMapping("/_search")
     public ResponseEntity<List<Movie>> getDocuments(){
         return ResponseEntity.ok(imdbService.getDocuments());
-    }
+    }*/
 
     @Operation(description = "Deletes the index",
             responses = {
             @ApiResponse(responseCode = "202", description = "Index deleted " +
                     "successfully")})
     @DeleteMapping("/delete")
-    public ResponseEntity deleteIndex(){
-        imdbService.deleteIndex();
+    public ResponseEntity deleteIndex(@RequestParam String indexName){
+        imdbService.deleteIndex(indexName);
         return ResponseEntity.ok("deleted");
     }
 
@@ -83,9 +81,6 @@ public class ImdbController {
         return imdbService.getIndixes().toString();
     }
 
-    @GetMapping("/_search/range")
-    public ResponseEntity<List<Movie>> getRangedMovies(@RequestParam int from
-            , @RequestParam int size){
-        return ResponseEntity.ok(imdbService.getRangedMovies(from, size));
-    }
+
+
 }

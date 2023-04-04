@@ -14,9 +14,13 @@ public interface ElasticsearchEngine {
 
     List<Movie> getDocuments();
 
-    void deleteIndex();
+    void deleteIndex(String indexName);
 
     GetIndexResponse getIndexes();
 
     List<Movie> getRangedMovies(int from, int size);
+
+    List<Movie> getMoviesByTitle(String title);
+
+    List<Movie> getRecommended(int year, int size);
 }
