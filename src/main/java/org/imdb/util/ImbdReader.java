@@ -260,6 +260,9 @@ public class ImbdReader {
             akasList.add(aka);
 
             akasLine = akas.readLine();
+            if(lineIsNull(akasLine)){
+                return akasList;
+            }
             parts = akasLine.split("\t");
         }
         aka=true;
@@ -268,7 +271,7 @@ public class ImbdReader {
 
     private String[] doRatings(String titleId) throws IOException {
         if (lineIsNull(ratingsLine)) {
-            return new String[]{"id", "0.0", "0"};
+            return new String[]{titleId, "0.0", "0"};
         }
         String[] parts = ratingsLine.split("\t");
         while(!parts[0].equals(titleId)){

@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Ranged and titleMovies queries working, keeping on with recommended">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/QueryEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/QueryEngineImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/controller/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/controller/IndexController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/controller/QueryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/controller/QueryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/util/ImbdReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/util/ImbdReader.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
