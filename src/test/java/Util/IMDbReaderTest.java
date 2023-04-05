@@ -18,28 +18,36 @@ public class IMDbReaderTest {
     public void givenFiles_whenProcessing_returnMovies() throws IOException {
         MultipartFile basics = new MockMultipartFile("basics.tsv",
                 new FileInputStream(
-                        "/Users/noeliaiglesias/Documents/Files imdb/title.basics.tsv"));
+                        "/Users/noeliaiglesias/Documents/Sessions/" +
+                                "imdb-project/src/test/java/Util/Files/" +
+                                "basics-test.tsv"));
         MultipartFile akas = new MockMultipartFile("akas.tsv",
                 new FileInputStream(
-                        "/Users/noeliaiglesias/Documents/Files imdb/title.akas.tsv"));
+                        "/Users/noeliaiglesias/Documents/Sessions/" +
+                                "imdb-project/src/test/java/Util/Files/" +
+                                "akas-test.tsv"));
         MultipartFile ratings =
                 new MockMultipartFile("ratings.tsv",
                         new FileInputStream(
-                                "/Users/noeliaiglesias/Documents/Files imdb/title.ratings" +
-                                        ".tsv"));
+                                "/Users/noeliaiglesias/Documents/Sessions/" +
+                                        "imdb-project/src/test/java/Util/Files/" +
+                                        "ratings-test.tsv"));
         MultipartFile crew = new MockMultipartFile("crew.tsv",
                 new FileInputStream(
-                        "/Users/noeliaiglesias/Documents/Files imdb/title.crew.tsv"));
+                        "/Users/noeliaiglesias/Documents/Sessions/" +
+                                "imdb-project/src/test/java/Util/Files/" +
+                                "crew-test.tsv"));
         MultipartFile principals =
                 new MockMultipartFile("principals.tsv",
                         new FileInputStream(
-                                "/Users/noeliaiglesias/Documents/Files imdb/title.principals" +
-                                        ".tsv"));
+                                "/Users/noeliaiglesias/Documents/Sessions/" +
+                                        "imdb-project/src/test/java/Util/Files/" +
+                                        "principals-test.tsv"));
         ImbdReader imbdReader = new ImbdReader(basics, akas, ratings, crew,
                 principals);
+
         imbdReader.getLines();
         Movie movie = imbdReader.getMovie();
-
         assertEquals(movie.getPrimaryTitle(), "Carmencita");
     }
 

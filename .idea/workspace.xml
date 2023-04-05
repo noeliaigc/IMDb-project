@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Ranged and titleMovies queries working, keeping on with recommended">
+    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Starting with tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/util/ImbdReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/util/ImbdReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Util/IMDbReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Util/IMDbReaderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +76,9 @@
       <recent name="$PROJECT_DIR$/src/main/java/org/imdb/service" />
       <recent name="$PROJECT_DIR$/src/main/java/org/imdb/repositories" />
       <recent name="$PROJECT_DIR$/src/main/java/org/imdb/model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java/Util/Files" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.imdb.util" />
@@ -171,7 +176,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680609500895</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Starting with tests">
+      <created>1680690529955</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1680690529957</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -203,7 +215,8 @@
     <MESSAGE value="fixing some index mappings and code" />
     <MESSAGE value="fixed ratings and started queries" />
     <MESSAGE value="Ranged and titleMovies queries working, keeping on with recommended" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ranged and titleMovies queries working, keeping on with recommended" />
+    <MESSAGE value="Starting with tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Starting with tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
