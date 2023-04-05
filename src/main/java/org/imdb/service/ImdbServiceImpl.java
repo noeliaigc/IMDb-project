@@ -40,7 +40,6 @@ public class ImdbServiceImpl implements ImdbService{
             List<Movie> movies = new ArrayList<>();
             reader = new ImbdReader(basics, akas, ratings, crew, participants);
             int counter = 0;
-            int tandas = 0;
 
             while(reader.lines) {
                 reader.getLines();
@@ -50,17 +49,14 @@ public class ImdbServiceImpl implements ImdbService{
                     movies.add(movie);
                     counter++;
                 }
+
                 if(counter == NUM_MOVIES){
                     elasticsearchEngine.indexDocuments(movies);
                     counter = 0;
-                    tandas++;
                     movies.clear();
                 }
             }
             elasticsearchEngine.indexDocuments(movies);
-
-
-
 
         }catch(IOException exception){
             throw exception;
@@ -83,12 +79,27 @@ public class ImdbServiceImpl implements ImdbService{
     }
 
     @Override
-    public void deleteIndex() {
-        elasticsearchEngine.deleteIndex();
+    public void deleteIndex(String indexName) {
+        elasticsearchEngine.deleteIndex(indexName);
     }
 
     @Override
     public GetIndexResponse getIndixes() {
         return elasticsearchEngine.getIndexes();
+    }
+
+    @Override
+    public List<Movie> getRangedMovies(int from, int size){
+        return elasticsearchEngine.getRangedMovies(from, size);
+    }
+
+    @Override
+    public List<Movie> getMoviesByTitle(String title){
+        return elasticsearchEngine.getMoviesByTitle(title);
+    }
+
+    @Override
+    public List<Movie> getRecommended(int year, int size){
+        return elasticsearchEngine.getRecommended(year, size);
     }
 }

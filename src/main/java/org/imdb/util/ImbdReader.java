@@ -24,6 +24,10 @@ public class ImbdReader {
     private String participantLine;
 
     public boolean lines = true;
+    public boolean rtng = true;
+    public boolean dir = true;
+    public boolean act = true;
+    public boolean aka = true;
 
 
 
@@ -57,10 +61,18 @@ public class ImbdReader {
 
     public void getLines() throws IOException {
         basicsLine = basics.readLine();
-        akasLine = akas.readLine();
-        ratingsLine = ratings.readLine();
-        crewLine = crew.readLine();
-        participantLine = participants.readLine();
+        if(aka) {
+            akasLine = akas.readLine();
+        }
+        if(rtng) {
+            ratingsLine = ratings.readLine();
+        }
+        if(dir) {
+            crewLine = crew.readLine();
+        }
+        if(act) {
+            participantLine = participants.readLine();
+        }
     }
 
 
@@ -98,10 +110,36 @@ public class ImbdReader {
         //getActors
         List<Starring> starrings = doActors(titleId);
 
-        return new Movie(titleId, titleType, primaryTitle, originalTitle,false,
+
+        return createMovie(titleId, titleType, primaryTitle, originalTitle,
+                false,
                 startYear, endYear, runtimeMinutes, genres, avgRating,
                 numVotes, akas,
                 directors, starrings);
+    }
+
+    private Movie createMovie(String titleId, String titleType, String
+            primaryTitle, String originalTitle, boolean isAdult, int startYear,
+                              int endYear, int runtimeMinutes, String[] genres,
+                              double avgRating, int numVotes, List<Akas> akas,
+                              List<Directors> directors, List<Starring> starrings) {
+        Movie movie = new Movie();
+        movie.setTconst(titleId);
+        movie.setTitleType(titleType);
+        movie.setPrimaryTitle(primaryTitle);
+        movie.setOriginalTitle(originalTitle);
+        movie.setAdult(isAdult);
+        movie.setStartYear(startYear);
+        movie.setEndYear(endYear);
+        movie.setRuntimeMinutes(runtimeMinutes);
+        movie.setGenres(genres);
+        movie.setAvgRating(avgRating);
+        movie.setNumVotes(numVotes);
+        movie.setAkas(akas);
+        movie.setDirectors(directors);
+        movie.setStarrings(starrings);
+        return movie;
+
     }
 
     private boolean noLines() {
@@ -110,67 +148,153 @@ public class ImbdReader {
 
     private List<Starring> doActors(String titleId) throws IOException {
         List<Starring> starrings = new ArrayList<>();
-        String title;
-        while((title = participantLine.split("\t")[0]).equals(titleId)){
-            String[] parts = participantLine.split("\t");
-            Starring starring = new Starring(new Name(parts[2]), parts[5]);
+
+        if(lineIsNull(participantLine)){
+            return starrings;
+        }
+
+        String[] parts = participantLine.split("\t");
+
+        while(!parts[0].equals(titleId)) {
+            if(isSmaller(titleId, parts[0])){
+                act=false;
+                return starrings;
+            }else{
+                participantLine = participants.readLine();
+                if(lineIsNull(participantLine)){
+                    return starrings;
+                }
+                parts = participantLine.split("\t");
+            }
+        }
+
+        while(parts[0].equals(titleId)){
+            //String[] parts = participantLine.split("\t");
+            Name name = new Name();
+            name.setNconst(parts[2]);
+            Starring starring = new Starring();
+            starring.setName(name);
+            starring.setCharacters(parts[5]);
             starrings.add(starring);
 
             participantLine = participants.readLine();
+            parts = participantLine.split("\t");
         }
-
+        act = true;
         return starrings;
     }
 
-    private List<Directors> doDirectors(String titleId) {
+    private List<Directors> doDirectors(String titleId) throws IOException {
         List<Directors> directors = new ArrayList<>();
-        String[] parts = crewLine.split("\t");
-        if(parts[0].equals(titleId)){
-            if(parts[1].contains(",")) {
-                String[] dir = parts[1].split(",");
-                addDirectors(directors, dir);
 
+        if(lineIsNull(crewLine)){
+            return directors;
+        }
+
+        String[] parts = crewLine.split("\t");
+        while(!parts[0].equals(titleId)) {
+            if(isSmaller(titleId, parts[0])){
+                dir=false;
+                return directors;
             }else{
-                Directors d = new Directors(parts[1]);
-                directors.add(d);
+                crewLine = crew.readLine();
+                if(lineIsNull(crewLine)){
+                    return directors;
+                }
+                parts = crewLine.split("\t");
             }
         }
+
+        if (parts[1].contains(",")) {
+            String[] dir = parts[1].split(",");
+            addDirectors(directors, dir);
+
+        } else {
+            Directors d = new Directors();
+            d.setNconst(parts[1]);
+            directors.add(d);
+        }
+        dir = true;
         return directors;
     }
 
     private void addDirectors(List<Directors> directors, String[] dir) {
         for(int i = 0; i < dir.length; i++){
-            Directors d = new Directors(dir[i]);
+            Directors d = new Directors();
+            d.setNconst(dir[i]);
             directors.add(d);
         }
     }
 
     private List<Akas> doAkas(String titleId) throws IOException {
         List<Akas> akasList = new ArrayList<>();
-        String title;
-        while((title = akasLine.split("\t")[0]).equals(titleId)){
-            String[] parts = akasLine.split("\t");
+
+        if(lineIsNull(akasLine)){
+            return akasList;
+        }
+
+        String[] parts = akasLine.split("\t");
+
+        while(!parts[0].equals(titleId)) {
+            if(isSmaller(titleId, parts[0])){
+                aka=false;
+                return akasList;
+            }else{
+                akasLine = akas.readLine();
+                if(lineIsNull(akasLine)){
+                    return akasList;
+                }
+                parts = akasLine.split("\t");
+            }
+        }
+        while(parts[0].equals(titleId)){
             boolean isOriginal = true;
             if(parts[7].equals("0")){
                 isOriginal = false;
             }
-            Akas aka = new Akas(parts[2], parts[3], parts[4], isOriginal);
+            Akas aka = new Akas();
+            aka.setTitle(parts[2]);
+            aka.setRegion(parts[3]);
+            aka.setLanguage(parts[4]);
+            aka.setOriginal(isOriginal);
             akasList.add(aka);
+
             akasLine = akas.readLine();
+            parts = akasLine.split("\t");
         }
+        aka=true;
         return akasList;
     }
 
-    private String[] doRatings(String titleId) {
-        if (ratingsLine == null) {
+    private String[] doRatings(String titleId) throws IOException {
+        if (lineIsNull(ratingsLine)) {
             return new String[]{"id", "0.0", "0"};
-        }else{
-            String[] parts = ratingsLine.split("\t");
-            if (parts[0].equals(titleId)) {
-                return parts;
+        }
+        String[] parts = ratingsLine.split("\t");
+        while(!parts[0].equals(titleId)){
+            if(isSmaller(titleId, parts[0])){
+                rtng = false;
+                return new String[]{titleId, "0.0", "0"};
+            }else{
+                ratingsLine = ratings.readLine();
+                if(lineIsNull(ratingsLine)) {
+                    return new String[]{titleId, "0.0", "0"};
+                }
+                parts = ratingsLine.split("\t");
             }
         }
-        return new String[]{titleId, "0.0", "0"};
+        rtng = true;
+        return parts;
+    }
+
+
+    private boolean isSmaller(String titleId, String part) {
+        int id = Integer.parseInt(part.split("tt")[1]);
+        int title = Integer.parseInt(titleId.split("tt")[1]);
+        if(title < id){
+            return true;
+        }
+        return false;
     }
 
     private String check(String part) {
@@ -178,5 +302,9 @@ public class ImbdReader {
             return "0";
         }
         return part;
+    }
+
+    private boolean lineIsNull(String line){
+        return line == null;
     }
 }

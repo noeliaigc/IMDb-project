@@ -20,8 +20,14 @@ public interface ImdbService {
 
     List<Movie> getDocuments();
 
-    void deleteIndex();
+    void deleteIndex(String indexName);
 
 
     GetIndexResponse getIndixes();
+
+    List<Movie> getRangedMovies(int from, int size);
+
+    List<Movie> getMoviesByTitle(String title);
+
+    List<Movie> getRecommended(int year, int size);
 }
