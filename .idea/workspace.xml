@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="fixed ratings and started queries">
+    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Ranged and titleMovies queries working, keeping on with recommended">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/controller/ImdbController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/controller/IndexController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/util/ImbdReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/util/ImbdReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/QueryEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/QueryEngineImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680259613303</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Ranged and titleMovies queries working, keeping on with recommended">
+      <created>1680609500895</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1680609500895</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -151,6 +153,7 @@
     <MESSAGE value="Indexing and cerebro working" />
     <MESSAGE value="fixing some index mappings and code" />
     <MESSAGE value="fixed ratings and started queries" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed ratings and started queries" />
+    <MESSAGE value="Ranged and titleMovies queries working, keeping on with recommended" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ranged and titleMovies queries working, keeping on with recommended" />
   </component>
 </project>

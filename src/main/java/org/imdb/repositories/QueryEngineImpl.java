@@ -3,25 +3,18 @@ package org.imdb.repositories;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.query_dsl.MultiMatchQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
-import org.apache.lucene.search.BooleanQuery;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.imdb.model.Movie;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 @Component
 public class QueryEngineImpl {
@@ -80,15 +73,26 @@ public class QueryEngineImpl {
         List<Movie> movies = new ArrayList<>();
         try {
             SortOptions sort = new SortOptions.Builder().field(f -> f.field(
-                    "avgRating").order(SortOrder.Asc)).build();
+                    "avgRating").order(SortOrder.Desc)).build();
 
-            SearchResponse searchResponse =
-                    elasticsearchClient.search(i -> i
-                                    .index(INDEX)
-                                    .size(size)
-                                    .sort(sort),
-                                    Movie.class);
-            List<Hit<Movie>> hits = searchResponse.hits().hits();
+            List<Query> queries = new ArrayList<>();
+
+            Query titleTypeQuery = MatchQuery.of(m -> m.query("movie")
+                    .field("titleType"))._toQuery();
+            Query yearQuery = MultiMatchQuery.of(m -> m.query(String.valueOf(year))
+                    .fields("startYear", "endYear"))._toQuery();
+            Query votesQuery = RangeQuery.of(r -> r.field("numVotes")
+                    .gte(JsonData.of(50000)))._toQuery();
+
+            queries.add(titleTypeQuery);
+            queries.add(yearQuery);
+            queries.add(votesQuery);
+
+            Query query =
+                    BoolQuery.of(q -> q.filter(queries))._toQuery();
+
+
+            List<Hit<Movie>> hits = getQueryResult(size, sort, query);
 
             for (Hit<Movie> object : hits) {
                 movies.add(object.source());
@@ -98,5 +102,18 @@ public class QueryEngineImpl {
             System.out.println("error");
         }
         return movies;
+    }
+
+    private List<Hit<Movie>> getQueryResult(int size, SortOptions sort, Query query) throws IOException {
+        SearchResponse searchResponse =
+                elasticsearchClient.search(i -> i
+                                .index(INDEX)
+                                .query(query)
+                                .size(size)
+                                .sort(sort),
+                                Movie.class);
+
+        List<Hit<Movie>> hits = searchResponse.hits().hits();
+        return hits;
     }
 }

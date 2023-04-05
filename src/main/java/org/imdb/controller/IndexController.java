@@ -61,11 +61,6 @@ public class IndexController {
         imdbService.indexDocument(movie);
     }
 
-    /*@GetMapping("/_search")
-    public ResponseEntity<List<Movie>> getDocuments(){
-        return ResponseEntity.ok(imdbService.getDocuments());
-    }*/
-
     @Operation(description = "Deletes the index",
             responses = {
             @ApiResponse(responseCode = "202", description = "Index deleted " +
