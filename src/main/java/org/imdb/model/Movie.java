@@ -1,14 +1,19 @@
 package org.imdb.model;
 
-import org.springframework.data.elasticsearch.annotations.Document;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Document(indexName = "movies")
+@Data
+@NoArgsConstructor
 public class Movie {
-    private String titleId;
+    private String tconst;
+    private String titleType;
     private String primaryTitle;
     private String originalTitle;
+    private boolean isAdult;
     private int startYear;
     private int endYear;
     private int runtimeMinutes;
@@ -17,75 +22,8 @@ public class Movie {
     double avgRating;
     int numVotes;
     List<Akas> akas;
-    List<Director> directors;
-    List<Actor> actors;
-
-    public Movie(String titleId, String primaryTitle, String originalTitle,
-                 int startYear, int endYear, int runtimeMinutes,
-                 String[] genres,
-                 double avgRating, int numVotes, List<Akas> akas,
-                 List<Director> directors, List<Actor> actors) {
-        this.titleId = titleId;
-        this.primaryTitle = primaryTitle;
-        this.originalTitle = originalTitle;
-        this.startYear = startYear;
-        this.endYear = endYear;
-        this.runtimeMinutes = runtimeMinutes;
-        this.genres = genres;
-        this.avgRating = avgRating;
-        this.numVotes = numVotes;
-        this.akas = akas;
-        this.directors = directors;
-        this.actors = actors;
-    }
-
-    public Movie(){}
-
-    public String getTitleId() {
-        return titleId;
-    }
-
-    public String getPrimaryTitle() {
-        return primaryTitle;
-    }
-
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
+    List<Directors> directors;
+    List<Starring> starrings;
 
 
-    public int getStartYear() {
-        return startYear;
-    }
-
-    public int getEndYear() {
-        return endYear;
-    }
-
-    public int getRuntimeMinutes() {
-        return runtimeMinutes;
-    }
-    public String[] getGenres() {
-        return genres;
-    }
-
-    public double getAvgRating() {
-        return avgRating;
-    }
-
-    public int getNumVotes() {
-        return numVotes;
-    }
-
-    public List<Akas> getAkas() {
-        return akas;
-    }
-
-    public List<Director> getDirectors() {
-        return directors;
-    }
-
-    public List<Actor> getActors() {
-        return actors;
-    }
 }

@@ -5,8 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Name {
-    private String nconst;
+public class Starring {
 
+    private Name name;
+    private String characters;
 
 }

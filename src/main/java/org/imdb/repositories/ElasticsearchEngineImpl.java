@@ -22,7 +22,7 @@ import java.util.List;
 @Component
 public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
     private final ElasticSearchConfig elasticSearchConfig;
-    private static final String INDEX = "movies";
+    private static final String INDEX = "imdb";
 
 
     @Autowired
@@ -34,7 +34,8 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
     public void createIndex(InputStream input) {
         try {
             CreateIndexResponse cir =
-                    elasticSearchConfig.getElasticClient().indices().create(b -> b.index(
+                    elasticSearchConfig.getElasticClient().indices().create(b
+                            -> b.index(
                     INDEX).withJson(input));
             if(cir.acknowledged()){
                 System.out.println("indexed");
@@ -54,14 +55,15 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
                 for (Movie m : movies) {
                     br.operations(op -> op
                             .index(idx -> idx
-                                    .index("movies")
-                                    .id(m.getTitleId())
+                                    .index(INDEX)
+                                    .id(m.getTconst())
                                     .document(m)
                             )
                     );
                     counter++;
                 }
-                BulkResponse result = elasticSearchConfig.getElasticClient().bulk(br.build());
+                BulkResponse result = elasticSearchConfig.getElasticClient()
+                        .bulk(br.build());
                 if(result.errors()){
                     System.out.println("Bulk has errors");
                 }
@@ -79,7 +81,8 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
 
         List<Movie> movies = new ArrayList<>();
         try {
-            SearchResponse searchResponse = elasticSearchConfig.getElasticClient().search(searchRequest,
+            SearchResponse searchResponse = elasticSearchConfig
+                    .getElasticClient().search(searchRequest,
                     Movie.class);
             List<Hit> hits = searchResponse.hits().hits();
 
@@ -95,12 +98,12 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
     }
 
     @Override
-    public void deleteIndex() {
+    public void deleteIndex(String indexName) {
         try{
 
             DeleteIndexResponse deleteIndexResponse =
                     elasticSearchConfig.getElasticClient().indices().delete(c ->
-                            c.index(INDEX));
+                            c.index(indexName));
 
             if(deleteIndexResponse.acknowledged()){
                 System.out.println(("deleted"));
@@ -124,5 +127,22 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
             System.out.println("There is no index");
         }
         return null;
+    }
+
+    @Override
+    public List<Movie> getRangedMovies(int from, int size){
+        return new QueryEngineImpl(elasticSearchConfig.getElasticClient())
+                .getRangedMovies(from, size);
+    }
+
+    @Override
+    public List<Movie> getMoviesByTitle(String title){
+        return new QueryEngineImpl(elasticSearchConfig.getElasticClient()).getMoviesByTitle(title);
+    }
+
+    @Override
+    public List<Movie> getRecommended(int year, int size){
+        return new QueryEngineImpl(elasticSearchConfig.getElasticClient())
+                .getRecommended(year, size);
     }
 }
