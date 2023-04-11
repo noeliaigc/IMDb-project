@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Some fixes and documentation added.">
+    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Added security configuration class to solve CORS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/controller/QueryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/controller/QueryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/QueryEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/QueryEngineImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +32,19 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="73f63c68-096e-4ece-91b0-6e7d3b72391e" />
+        <option name="url" value="https://github.com/noeliaigc/imdb-project.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -128,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680696205663</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added security configuration class to solve CORS">
+      <created>1681125927521</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1681125927521</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -161,6 +187,7 @@
     <MESSAGE value="fixed ratings and started queries" />
     <MESSAGE value="Ranged and titleMovies queries working, keeping on with recommended" />
     <MESSAGE value="Some fixes and documentation added." />
-    <option name="LAST_COMMIT_MESSAGE" value="Some fixes and documentation added." />
+    <MESSAGE value="Added security configuration class to solve CORS" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added security configuration class to solve CORS" />
   </component>
 </project>
