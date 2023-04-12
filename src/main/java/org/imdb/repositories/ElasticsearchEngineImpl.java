@@ -136,7 +136,7 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
     }
 
     @Override
-    public List<Movie> getMoviesByTitle(String title, String[] type){
+    public List<Movie> getMoviesByTitle(String title, String type){
         return new QueryEngineImpl(elasticSearchConfig.getElasticClient())
                 .getMoviesByTitle(title, type);
     }

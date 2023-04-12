@@ -37,9 +37,10 @@ public class QueryController {
             " title")
     @GetMapping("/_search/title")
     public ResponseEntity<List<Movie>> getMoviesByTitle(@Parameter(description =
-            "Text to search for the movie", required = true)@RequestParam String title){
-        String[] type = {"drama", "thriller"};
-        return ResponseEntity.ok(imdbService.getMoviesByTitle(title, null));
+            "Text to search for the movie", required = true)@RequestParam String title,
+                                                        @RequestParam String type){
+
+        return ResponseEntity.ok(imdbService.getMoviesByTitle(title, type));
     }
 
     @Operation(description = "Returns the recommeded movies in a specific year")
