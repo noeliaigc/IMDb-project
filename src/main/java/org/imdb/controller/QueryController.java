@@ -2,7 +2,6 @@ package org.imdb.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import org.elasticsearch.search.aggregations.bucket.filter.Filters;
 import org.imdb.model.Movie;
 import org.imdb.service.ImdbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class QueryController {
     }
 
     @Operation(description = "Returns the movies found that match part of the" +
-            " title")
+            " title and correspond to the applied filter")
     @GetMapping("/_search/title")
     public ResponseEntity<List<Movie>> getMoviesByTitle(@Parameter(description =
             "Text to search for the movie", required = true)@RequestParam String title,
@@ -51,6 +50,7 @@ public class QueryController {
         return ResponseEntity.ok(imdbService.getRecommended(year, size));
     }
 
+
     @GetMapping("/_search")
     public ResponseEntity<List<Movie>> getMoviesFiltered(@RequestParam int minYear,
                                                          @RequestParam int maxYear,
@@ -58,10 +58,10 @@ public class QueryController {
                                                          @RequestParam int minRuntimeMin,
                                                          @RequestParam double minAvgRating,
                                                          @RequestParam double maxAvgRating,
-                                                         @RequestParam String[] type,
-                                                         @RequestParam String[] genres)
+                                                         @RequestParam String type,
+                                                         @RequestParam String[] genres
+                                                         )
     {
-
         return ResponseEntity.ok(imdbService.getMoviesFiltered(minYear,
                 maxYear, maxRuntimeMin, minRuntimeMin, minAvgRating,
                 maxAvgRating, type, genres));
