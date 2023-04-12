@@ -94,7 +94,7 @@ public class ImdbServiceImpl implements ImdbService{
     }
 
     @Override
-    public List<Movie> getMoviesByTitle(String title, String[] type){
+    public List<Movie> getMoviesByTitle(String title, String type){
         return elasticsearchEngine.getMoviesByTitle(title, type);
     }
 

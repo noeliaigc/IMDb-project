@@ -19,24 +19,29 @@ import java.util.List;
 public class QueryEngineImpl {
     private ElasticsearchClient elasticsearchClient;
     private static final String INDEX = "imdb";
+    private static final String NOT_MATCH_MOVIES = " tvEpisode, video, " +
+            "videoGame, tvPilot";
+    private static final String MOVIES = "short, movie, tvMovie, tvShort";
+    private static final String EPISODE = "tvSeries, tvMiniSeries, tvSpecial";
 
     public QueryEngineImpl(ElasticsearchClient elasticsearchClient) {
         this.elasticsearchClient = elasticsearchClient;
     }
 
-    public List<Movie> getMoviesByTitle(String title, String[] type) {
+    public List<Movie> getMoviesByTitle(String title, String type) {
         List<Movie> movies = new ArrayList<>();
-        try {
-            List<Query> queries = new ArrayList<>();
 
-            if(type != null){
-                queries.add(getTypeAndGenreMovie("titleType",type));
-            }
+            List<Query> queries = new ArrayList<>();
 
             MultiMatchQuery multiMatchQuery = MultiMatchQuery.of(m -> m.fields(
                     "primaryTitle", "originalTitle").query(title));
 
             queries.add(multiMatchQuery._toQuery());
+
+            Query queryType = filterByType(type);
+            if(queryType != null){
+                queries.add(queryType);
+            }
 
             Query ratingQuery = RangeQuery.of(r -> r.field("avgRating")
                     .gte(JsonData.of(3.0)))._toQuery();
@@ -52,26 +57,37 @@ public class QueryEngineImpl {
             Query query =
                     BoolQuery.of(q -> q.filter(queries).mustNot(getMustNotType()))._toQuery();
 
-            SearchResponse searchResponse =
-                    elasticsearchClient.search(i -> i
-                                    .index(INDEX)
-                                    .query(query)
-                                    .size(40),
-                            Movie.class);
-            List<Hit<Movie>> hits = searchResponse.hits().hits();
+
+
+        List<Hit<Movie>> hits;
+        try {
+            hits = getQueryResult(40, query);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
             for(Hit<Movie> movie : hits){
                 movies.add(movie.source());
             }
-            return movies;
-        }catch(IOException e){
-            System.out.println("error");
-        }
         return movies;
     }
 
+    private Query filterByType(String type) {
+        switch (type){
+            case "MOVIE":
+                return MatchQuery.of(m -> m.field("titleType")
+                        .query(MOVIES))._toQuery();
+
+            case "EPISODE":
+                return MatchQuery.of(m -> m.field("titleType")
+                        .query(EPISODE))._toQuery();
+
+        }
+        return null;
+    }
+
     private Query getMustNotType() {
-        return MatchQuery.of(m -> m.field("titleType").query("tvEpisode, " +
-                "video, videoGame, tvPilot"))._toQuery();
+        return MatchQuery.of(m -> m.field("titleType")
+                .query(NOT_MATCH_MOVIES))._toQuery();
     }
 
     public List<Movie> getRangedMovies(int from, int size){
@@ -80,13 +96,8 @@ public class QueryEngineImpl {
             Query query =
                     RangeQuery.of(r -> r.field("startYear").gte(
                             JsonData.of(from)))._toQuery();
-            SearchResponse searchResponse =
-                    elasticsearchClient.search(i -> i
-                                    .index(INDEX)
-                                    .query(query)
-                                    .size(size),
-                            Movie.class);
-            List<Hit<Movie>> hits = searchResponse.hits().hits();
+
+            List<Hit<Movie>> hits = getQueryResult(size, query);
 
             for (Hit<Movie> object : hits) {
                 movies.add(object.source());
@@ -101,9 +112,6 @@ public class QueryEngineImpl {
     public List<Movie> getRecommended(int year, int size){
         List<Movie> movies = new ArrayList<>();
         try {
-            SortOptions sort = new SortOptions.Builder().field(f -> f.field(
-                    "avgRating").order(SortOrder.Desc)).build();
-
             List<Query> queries = new ArrayList<>();
 
             Query titleTypeQuery = MatchQuery.of(m -> m.query("movie")
@@ -121,7 +129,7 @@ public class QueryEngineImpl {
                     BoolQuery.of(q -> q.filter(queries))._toQuery();
 
 
-            List<Hit<Movie>> hits = getQueryResult(size, sort, query);
+            List<Hit<Movie>> hits = getQueryResult(size, query);
 
             for (Hit<Movie> object : hits) {
                 movies.add(object.source());
@@ -133,7 +141,12 @@ public class QueryEngineImpl {
         return movies;
     }
 
-    private List<Hit<Movie>> getQueryResult(int size, SortOptions sort, Query query) throws IOException {
+    private List<Hit<Movie>> getQueryResult(int size, Query query) throws IOException {
+
+        SortOptions sort = new SortOptions.Builder().field(f -> f.field(
+                    "avgRating").order(SortOrder.Desc)).build();
+
+
         SearchResponse searchResponse =
                 elasticsearchClient.search(i -> i
                                 .index(INDEX)
@@ -180,8 +193,8 @@ public class QueryEngineImpl {
     private Query getTypeAndGenreMovie(String field, String[] type) {
         String query = "";
         for(int i = 0; i < type.length; i++){
-            if(i != type.length - 1){
-                query += type[i] + " , ";
+            if(i != (type.length - 1)){
+                query += type[i] + ", ";
             }else{
                 query += type[i];
             }
