@@ -67,4 +67,14 @@ public class QueryController {
                 maxAvgRating, type, genres));
     }
 
+    @GetMapping("/_search/not-to-watch")
+    public ResponseEntity<List<Movie>> getNotToWatchMovies(){
+        return ResponseEntity.ok(imdbService.getNotToWatchMovies());
+    }
+
+    @GetMapping("_search/recommended-all-times")
+    public ResponseEntity<List<Movie>> getAllTimesRecommended(){
+        return ResponseEntity.ok(imdbService.getAllTimesRecommended());
+    }
+
 }

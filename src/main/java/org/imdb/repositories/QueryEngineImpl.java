@@ -3,10 +3,14 @@ package org.imdb.repositories;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOrder;
+import co.elastic.clients.elasticsearch._types.aggregations.AggregateBuilders;
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.Aggregations;
 import org.imdb.model.Movie;
 import org.springframework.stereotype.Component;
 
@@ -46,10 +50,9 @@ public class QueryEngineImpl {
             Query ratingQuery = RangeQuery.of(r -> r.field("avgRating")
                     .gte(JsonData.of(3.0)))._toQuery();
 
-            Query votesQuery = RangeQuery.of(r -> r.field("numVotes")
-                    .gte(JsonData.of(5000)))._toQuery();
+        Query votesQuery = getMinNumOfVotes(50000);
 
-            queries.add(ratingQuery);
+        queries.add(ratingQuery);
             queries.add(votesQuery);
 
 
@@ -59,17 +62,21 @@ public class QueryEngineImpl {
 
 
 
-        List<Hit<Movie>> hits;
+
         try {
-            hits = getQueryResult(40, query);
-            for(Hit<Movie> movie : hits){
-                movies.add(movie.source());
-            }
+            movies = getQueryResult(40, query);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         return movies;
+    }
+
+    private static Query getMinNumOfVotes(int votes) {
+        Query votesQuery = RangeQuery.of(r -> r.field("numVotes")
+                .gte(JsonData.of(votes)))._toQuery();
+        return votesQuery;
     }
 
     private Query filterByType(String type) {
@@ -98,12 +105,9 @@ public class QueryEngineImpl {
                     RangeQuery.of(r -> r.field("startYear").gte(
                             JsonData.of(from)))._toQuery();
 
-            List<Hit<Movie>> hits = getQueryResult(size, query);
+            movies = getQueryResult(size, query);
 
-            for (Hit<Movie> object : hits) {
-                movies.add(object.source());
-            }
-            return movies;
+
         }catch(IOException e){
             System.out.println("error");
         }
@@ -115,7 +119,7 @@ public class QueryEngineImpl {
         try {
             List<Query> queries = new ArrayList<>();
 
-            Query titleTypeQuery = MatchQuery.of(m -> m.query("movie")
+            Query titleTypeQuery = MatchQuery.of(m -> m.query(MOVIES)
                     .field("titleType"))._toQuery();
             Query yearQuery = MultiMatchQuery.of(m -> m.query(String.valueOf(year))
                     .fields("startYear", "endYear"))._toQuery();
@@ -130,19 +134,15 @@ public class QueryEngineImpl {
                     BoolQuery.of(q -> q.filter(queries))._toQuery();
 
 
-            List<Hit<Movie>> hits = getQueryResult(size, query);
+            movies = getQueryResult(size, query);
 
-            for (Hit<Movie> object : hits) {
-                movies.add(object.source());
-            }
-            return movies;
         }catch(IOException e){
             System.out.println("error");
         }
         return movies;
     }
 
-    private List<Hit<Movie>> getQueryResult(int size, Query query) throws IOException {
+    private List<Movie> getQueryResult(int size, Query query) throws IOException {
 
         SortOptions sort = new SortOptions.Builder().field(f -> f.field(
                     "avgRating").order(SortOrder.Desc)).build();
@@ -157,7 +157,12 @@ public class QueryEngineImpl {
                                 Movie.class);
 
         List<Hit<Movie>> hits = searchResponse.hits().hits();
-        return hits;
+        List<Movie> movies = new ArrayList<>();
+
+        for(Hit<Movie> hit : hits){
+            movies.add(hit.source());
+        }
+        return movies;
     }
 
     public List<Movie> getMoviesFiltered(int minYear,
@@ -191,12 +196,10 @@ public class QueryEngineImpl {
         Query query =
                 BoolQuery.of(q -> q.filter(queries))._toQuery();
 
-        List<Hit<Movie>> hits;
+
         try{
-            hits = getQueryResult(5, query);
-            for (Hit<Movie> object : hits) {
-                movies.add(object.source());
-            }
+            movies = getQueryResult(5, query);
+
         }catch(IOException e){
 
         }
@@ -231,5 +234,38 @@ public class QueryEngineImpl {
         return RangeQuery.of(r -> r.field(field1)
                 .gte(JsonData.of(value1)).lte(
                         JsonData.of(value2)))._toQuery();
+    }
+
+    public List<Movie> getNotToWatchMovies() {
+        List<Movie> movies = new ArrayList<>();
+
+        Query query =
+                BoolQuery.of(b -> b.must(MatchQuery.of(m -> m.field(
+                        "starrings.name.nconst").query("nm0782213"))._toQuery(),
+                                MatchQuery.of(m -> m.field(
+                                        "titleType").query("movie"))._toQuery())
+                        )._toQuery();
+
+        try {
+            movies = getQueryResult(25, query);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return movies;
+    }
+
+    public List<Movie> getAllTimesRecommended(){
+        List<Movie> movies = new ArrayList<>();
+        Query query =
+                BoolQuery.of(b -> b.must(MatchQuery.of(m -> m.field(
+                        "titleType").query("movie"))._toQuery(),
+                        getMinNumOfVotes(1000000)))._toQuery();
+
+        try{
+            movies = getQueryResult(60, query);
+        }catch(IOException e){
+            System.out.println("Something went wrong");
+        }
+        return movies;
     }
 }
