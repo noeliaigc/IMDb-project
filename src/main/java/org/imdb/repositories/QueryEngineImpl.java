@@ -1,22 +1,17 @@
 package org.imdb.repositories;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.SortOptions;
-import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.aggregations.AggregateBuilders;
-import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.Aggregations;
 import org.imdb.model.Movie;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -53,12 +48,12 @@ public class QueryEngineImpl {
         Query votesQuery = getMinNumOfVotes(50000);
 
         queries.add(ratingQuery);
-            queries.add(votesQuery);
+        queries.add(votesQuery);
 
 
 
             Query query =
-                    BoolQuery.of(q -> q.filter(queries).mustNot(getMustNotType()))._toQuery();
+                    BoolQuery.of(q -> q.must(queries).mustNot(getMustNotType()))._toQuery();
 
 
 
@@ -144,16 +139,12 @@ public class QueryEngineImpl {
 
     private List<Movie> getQueryResult(int size, Query query) throws IOException {
 
-        SortOptions sort = new SortOptions.Builder().field(f -> f.field(
-                    "avgRating").order(SortOrder.Desc)).build();
-
 
         SearchResponse searchResponse =
                 elasticsearchClient.search(i -> i
                                 .index(INDEX)
                                 .query(query)
-                                .size(size)
-                                .sort(sort),
+                                .size(size),
                                 Movie.class);
 
         List<Hit<Movie>> hits = searchResponse.hits().hits();
