@@ -32,7 +32,7 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
     }
 
     @Override
-    public void createIndex(InputStream input, InputStream settings) {
+    public void createIndex(InputStream input) {
         try {
             CreateIndexResponse cir =
                     elasticSearchConfig.getElasticClient().indices().create(b

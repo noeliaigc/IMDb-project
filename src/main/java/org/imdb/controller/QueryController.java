@@ -3,7 +3,6 @@ package org.imdb.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.imdb.model.Movie;
-import org.imdb.service.ImdbService;
 import org.imdb.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/imdb")
 public class QueryController {
-    //private final ImdbService imdbService;
 
     private final QueryService queryService;
 

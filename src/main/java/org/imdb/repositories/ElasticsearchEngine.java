@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.util.List;
 
 public interface ElasticsearchEngine {
-    void createIndex(InputStream input, InputStream settings);
+    void createIndex(InputStream input);
 
     void indexDocuments(List<Movie> movies);
 

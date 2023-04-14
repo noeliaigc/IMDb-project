@@ -13,7 +13,7 @@ public interface ImdbService {
                      MultipartFile ratings, MultipartFile crew,
                      MultipartFile participants) throws IOException;
 
-    void createIndex(InputStream input, InputStream settings);
+    void createIndex() throws IOException;
 
     void indexDocument(Movie movie);
 
