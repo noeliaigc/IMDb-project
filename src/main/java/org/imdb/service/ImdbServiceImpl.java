@@ -5,6 +5,7 @@ import org.imdb.model.Movie;
 import org.imdb.repositories.ElasticsearchEngine;
 import org.imdb.util.ImbdReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +38,8 @@ public class ImdbServiceImpl implements ImdbService{
                 throw new IOException("File is empty");
             }
 
+            createIndex();
+
             List<Movie> movies = new ArrayList<>();
             reader = new ImbdReader(basics, akas, ratings, crew, participants);
             int counter = 0;
@@ -64,7 +67,9 @@ public class ImdbServiceImpl implements ImdbService{
     }
 
     @Override
-    public void createIndex(InputStream input) {
+    public void createIndex() throws IOException {
+        InputStream input = new ClassPathResource("static" +
+                "/movieMapping.json").getInputStream();
         elasticsearchEngine.createIndex(input);
     }
 
@@ -88,18 +93,4 @@ public class ImdbServiceImpl implements ImdbService{
         return elasticsearchEngine.getIndexes();
     }
 
-    @Override
-    public List<Movie> getRangedMovies(int from, int size){
-        return elasticsearchEngine.getRangedMovies(from, size);
-    }
-
-    @Override
-    public List<Movie> getMoviesByTitle(String title){
-        return elasticsearchEngine.getMoviesByTitle(title);
-    }
-
-    @Override
-    public List<Movie> getRecommended(int year, int size){
-        return elasticsearchEngine.getRecommended(year, size);
-    }
 }

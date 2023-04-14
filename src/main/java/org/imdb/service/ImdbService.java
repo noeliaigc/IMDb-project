@@ -13,7 +13,7 @@ public interface ImdbService {
                      MultipartFile ratings, MultipartFile crew,
                      MultipartFile participants) throws IOException;
 
-    void createIndex(InputStream input);
+    void createIndex() throws IOException;
 
     void indexDocument(Movie movie);
 
@@ -25,9 +25,5 @@ public interface ImdbService {
 
     GetIndexResponse getIndixes();
 
-    List<Movie> getRangedMovies(int from, int size);
 
-    List<Movie> getMoviesByTitle(String title);
-
-    List<Movie> getRecommended(int year, int size);
 }

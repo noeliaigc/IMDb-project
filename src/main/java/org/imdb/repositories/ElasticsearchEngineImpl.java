@@ -1,5 +1,6 @@
 package org.imdb.repositories;
 
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
@@ -36,10 +37,11 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
             CreateIndexResponse cir =
                     elasticSearchConfig.getElasticClient().indices().create(b
                             -> b.index(
-                    INDEX).withJson(input));
+                            INDEX).withJson(input));
             if(cir.acknowledged()){
                 System.out.println("indexed");
             }
+
         }catch(IOException e){
             System.out.println("error");
         }
@@ -129,20 +131,24 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
         return null;
     }
 
-    @Override
-    public List<Movie> getRangedMovies(int from, int size){
-        return new QueryEngineImpl(elasticSearchConfig.getElasticClient())
-                .getRangedMovies(from, size);
-    }
 
     @Override
-    public List<Movie> getMoviesByTitle(String title){
-        return new QueryEngineImpl(elasticSearchConfig.getElasticClient()).getMoviesByTitle(title);
-    }
+    public List<Movie> getQueryResult(int size, Query query) throws IOException {
 
-    @Override
-    public List<Movie> getRecommended(int year, int size){
-        return new QueryEngineImpl(elasticSearchConfig.getElasticClient())
-                .getRecommended(year, size);
+
+        SearchResponse searchResponse =
+                elasticSearchConfig.getElasticClient().search(i -> i
+                                .index(INDEX)
+                                .query(query)
+                                .size(size),
+                        Movie.class);
+
+        List<Hit<Movie>> hits = searchResponse.hits().hits();
+        List<Movie> movies = new ArrayList<>();
+
+        for(Hit<Movie> hit : hits){
+            movies.add(hit.source());
+        }
+        return movies;
     }
 }
