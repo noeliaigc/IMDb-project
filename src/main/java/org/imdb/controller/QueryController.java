@@ -2,9 +2,8 @@ package org.imdb.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import org.elasticsearch.search.aggregations.bucket.filter.Filters;
 import org.imdb.model.Movie;
-import org.imdb.service.ImdbService;
+import org.imdb.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,16 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/imdb")
 public class QueryController {
-    private final ImdbService imdbService;
+
+    private final QueryService queryService;
 
     @Autowired
-    public QueryController(ImdbService imdbService) {
-        this.imdbService = imdbService;
+    public QueryController(QueryService queryService) {
+        this.queryService = queryService;
     }
 
     @Operation(description = "Returns the movies in a range")
@@ -30,17 +31,25 @@ public class QueryController {
             "From which number of movie to search", required = true)@RequestParam int from
             ,@Parameter(description = "Size of the query result", required = true)
              @RequestParam int size){
-        return ResponseEntity.ok(imdbService.getRangedMovies(from, size));
+        try {
+            return ResponseEntity.ok(queryService.getRangedMovies(from, size));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Operation(description = "Returns the movies found that match part of the" +
-            " title")
+            " title and correspond to the applied filter")
     @GetMapping("/_search/title")
     public ResponseEntity<List<Movie>> getMoviesByTitle(@Parameter(description =
             "Text to search for the movie", required = true)@RequestParam String title,
                                                         @RequestParam String type){
 
-        return ResponseEntity.ok(imdbService.getMoviesByTitle(title, type));
+        try {
+            return ResponseEntity.ok(queryService.getMoviesByTitle(title, type));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Operation(description = "Returns the recommeded movies in a specific year")
@@ -48,8 +57,13 @@ public class QueryController {
     public ResponseEntity<List<Movie>> getRecommended(@Parameter(description
             = "Year of the film", required = true) int year, @Parameter(description
             = "Size of the " +"query result",required = true) int size){
-        return ResponseEntity.ok(imdbService.getRecommended(year, size));
+        try {
+            return ResponseEntity.ok(queryService.getRecommended(year, size));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     @GetMapping("/_search")
     public ResponseEntity<List<Movie>> getMoviesFiltered(@RequestParam int minYear,
@@ -58,13 +72,35 @@ public class QueryController {
                                                          @RequestParam int minRuntimeMin,
                                                          @RequestParam double minAvgRating,
                                                          @RequestParam double maxAvgRating,
-                                                         @RequestParam String[] type,
-                                                         @RequestParam String[] genres)
+                                                         @RequestParam String type,
+                                                         @RequestParam String[] genres
+                                                         )
     {
+        try {
+            return ResponseEntity.ok(queryService.getMoviesFiltered(minYear,
+                    maxYear, maxRuntimeMin, minRuntimeMin, minAvgRating,
+                    maxAvgRating, type, genres));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        return ResponseEntity.ok(imdbService.getMoviesFiltered(minYear,
-                maxYear, maxRuntimeMin, minRuntimeMin, minAvgRating,
-                maxAvgRating, type, genres));
+    @GetMapping("/_search/not-to-watch")
+    public ResponseEntity<List<Movie>> getNotToWatchMovies(){
+        try {
+            return ResponseEntity.ok(queryService.getNotToWatchMovies());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("_search/recommended-all-times")
+    public ResponseEntity<List<Movie>> getAllTimesRecommended(){
+        try {
+            return ResponseEntity.ok(queryService.getAllTimesRecommended());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
