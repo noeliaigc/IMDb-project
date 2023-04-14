@@ -54,10 +54,12 @@ public class IndexController {
     @PutMapping("")
     public ResponseEntity createIndex(@Parameter(description = "Mapping file " +
             "to create the index", required = true) @RequestBody MultipartFile
-                                                  file){
+                                                  file,
+                                      @RequestBody MultipartFile file2){
         try {
             InputStream input = file.getInputStream();
-            imdbService.createIndex(input);
+            InputStream settings = file2.getInputStream();
+            imdbService.createIndex(input, settings);
             return ResponseEntity.ok("indexed");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

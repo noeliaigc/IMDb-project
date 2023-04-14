@@ -1,5 +1,5 @@
 {
-	"mappings":{
+
 		"properties":{
 			"tconst":{
 				"type":"keyword"
@@ -35,6 +35,6 @@
 				"type":"integer"
 			}
 		}
-	}
+
 
 }
