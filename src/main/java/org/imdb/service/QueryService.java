@@ -3,6 +3,7 @@ package org.imdb.service;
 import org.imdb.model.Movie;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public interface QueryService {
@@ -17,4 +18,5 @@ public interface QueryService {
     List<Movie> getNotToWatchMovies() throws IOException;
 
     List<Movie> getAllTimesRecommended() throws IOException;
+
 }

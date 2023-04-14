@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Fixed some queries">
+    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Refactoring code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/controller/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/controller/IndexController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/controller/QueryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/controller/QueryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681382441105</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Refactoring code">
+      <created>1681466811648</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1681466811648</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -213,6 +217,7 @@
     <MESSAGE value="Fixed principal search query" />
     <MESSAGE value="Added recommended-all-times and not-to-watch queries" />
     <MESSAGE value="Fixed some queries" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed some queries" />
+    <MESSAGE value="Refactoring code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring code" />
   </component>
 </project>

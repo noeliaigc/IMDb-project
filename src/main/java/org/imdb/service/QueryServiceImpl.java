@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -133,6 +134,5 @@ public class QueryServiceImpl implements QueryService{
                         queryProvider.getMinNumOfVotes(1000000)))._toQuery();
         return elasticsearchEngine.getQueryResult(20, query);
     }
-
 
 }
