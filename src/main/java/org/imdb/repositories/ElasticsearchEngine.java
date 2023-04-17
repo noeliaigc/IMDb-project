@@ -1,5 +1,6 @@
 package org.imdb.repositories;
 
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import org.imdb.model.Movie;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 public interface ElasticsearchEngine {
@@ -22,4 +24,8 @@ public interface ElasticsearchEngine {
     GetIndexResponse getIndexes();
 
     List<Movie> getQueryResult(int size, Query query) throws IOException;
+
+    List<Movie> getQueryResult(int size, Query query, HashMap<String,
+            Aggregation> aggregations)
+    throws IOException;
 }

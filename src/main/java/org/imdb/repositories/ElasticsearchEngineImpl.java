@@ -1,5 +1,6 @@
 package org.imdb.repositories;
 
+import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -141,6 +143,30 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
                                 .index(INDEX)
                                 .query(query)
                                 .size(size),
+                        Movie.class);
+
+        List<Hit<Movie>> hits = searchResponse.hits().hits();
+        List<Movie> movies = new ArrayList<>();
+
+        for(Hit<Movie> hit : hits){
+            movies.add(hit.source());
+        }
+        return movies;
+    }
+
+    @Override
+    public List<Movie> getQueryResult(int size, Query query, HashMap<String,
+            Aggregation> aggregations)
+    throws IOException {
+
+
+        SearchResponse searchResponse =
+                elasticSearchConfig.getElasticClient().search(i -> i
+                                .index(INDEX)
+                                .query(query)
+                                .size(size)
+                                .aggregations("genres", aggregations.get(
+                                        "genres")),
                         Movie.class);
 
         List<Hit<Movie>> hits = searchResponse.hits().hits();
