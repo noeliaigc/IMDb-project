@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Code documented">
+    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Genres query">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/controller/QueryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/controller/QueryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/custom_analyzer.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/custom_analyzer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/movieMapping.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/movieMapping.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="queries" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
