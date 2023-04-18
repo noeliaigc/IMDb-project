@@ -1,7 +1,6 @@
 package org.imdb.service;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
-import co.elastic.clients.json.JsonData;
 import org.imdb.model.Movie;
 import org.imdb.repositories.ElasticsearchEngine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +26,34 @@ public class QueryServiceImpl implements QueryService{
         this.elasticsearchEngine = elasticsearchEngine;
     }
 
-
+    /**
+     * Returns the movies in a range from the year specified
+     *
+     * @param from Year from it has to search
+     * @param size Size of the result of list of movies
+     * @return list of movies
+     * @throws IOException
+     */
     @Override
     public List<Movie> getRangedMovies(int from, int size) throws IOException {
         return elasticsearchEngine.getQueryResult(size, queryProvider.getRangedQuery(
                 "startYear", from));
     }
 
+    /**
+     * Returns the movies that match with the title and the type specified.
+     *
+     * @param title
+     * @param type
+     * @return list of movies
+     * @throws IOException
+     */
     @Override
     public List<Movie> getMoviesByTitle(String title, String type) throws IOException {
         List<Query> queries = new ArrayList<>();
-        queries.add(queryProvider.getMultiMatchQuery("primaryTitle",
-                "originalTitle", title));
-        Query typeQ = queryProvider.getMatchQuery("titleType", type);
+        queries.add(queryProvider.getTitle(title));
+
+        Query typeQ = checkType(type);
         if(typeQ != null){
             queries.add(typeQ);
         }
@@ -53,6 +67,31 @@ public class QueryServiceImpl implements QueryService{
         return elasticsearchEngine.getQueryResult(40, query);
     }
 
+    /**
+     * Checks the type that is want to be search and performs the query to
+     * match movies with that type.
+     *
+     * @param type
+     * @return
+     */
+    private Query checkType(String type) {
+        switch(type){
+            case "MOVIE":
+                return queryProvider.getMatchQuery("titleType", MOVIES);
+            case "EPISODE":
+                return queryProvider.getMatchQuery("titleType", EPISODE);
+        }
+        return null;
+    }
+
+    /**
+     * Returns the recommended movies with a good score in the year
+     * specified
+     * @param year
+     * @param size
+     * @return list of movies
+     * @throws IOException
+     */
     @Override
     public List<Movie> getRecommended(int year, int size) throws IOException {
         List<Query> queries = new ArrayList<>();
@@ -66,6 +105,20 @@ public class QueryServiceImpl implements QueryService{
         return elasticsearchEngine.getQueryResult(size, query);
     }
 
+    /**
+     * Returns the movies filtered by year, runtimeMin, avgRating, type and
+     * genre
+     * @param minYear
+     * @param maxYear
+     * @param maxRuntimeMin
+     * @param minRuntimeMin
+     * @param minAvgRating
+     * @param maxAvgRating
+     * @param type
+     * @param genres
+     * @return list of movies
+     * @throws IOException
+     */
     @Override
     public List<Movie> getMoviesFiltered(int minYear, int maxYear, int
             maxRuntimeMin, int minRuntimeMin, double minAvgRating,
@@ -73,41 +126,33 @@ public class QueryServiceImpl implements QueryService{
                                          String[] genres) throws IOException {
         List<Query> queries = new ArrayList<>();
 
-        if(minYear != 0 && maxYear != 0){
-            queries.add(queryProvider.getRangedQueryDouble("startYear", "endYear",
+        if(minYear > 0 && maxYear > 0 && maxYear > minYear){
+            queries.add(queryProvider.getRangedQuery("startYear",
                     minYear, maxYear));
         }
 
-        if(minRuntimeMin > 0 && maxRuntimeMin != 0){
-            queries.add(queryProvider.getRangedQueryDoubleValue("runtimeMinutes",
+        if(minRuntimeMin > 0 && maxRuntimeMin > 0 && maxRuntimeMin > minRuntimeMin){
+            queries.add(queryProvider.getRangedQuery("runtimeMinutes",
                     minRuntimeMin,
                     maxRuntimeMin));
         }
-        if(minAvgRating >= 0 && maxAvgRating != 0){
-            queries.add(queryProvider.getRangedQueryDoubleValue("avgRating", minAvgRating,
+        if(minAvgRating >= 0 && maxAvgRating > 0 && maxAvgRating > minAvgRating){
+            queries.add(queryProvider.getRangedQuery("avgRating", minAvgRating,
                     maxAvgRating));
         }
 
-        Query typeQ = queryProvider.getMatchQuery("titleType", type);
+        Query typeQ = checkType(type);
 
         if(typeQ != null){
             queries.add(typeQ);
         }
 
-        if (genres != null) {
-
-            String query = "";
-            for(int i = 0; i < genres.length; i++){
-                if(i != (genres.length - 1)){
-                    query += genres[i] + ", ";
-                }else{
-                    query += genres[i];
-                }
-            }
-            String finalQ = query;
-            queries.add(queryProvider.getMatchQuery("genres",finalQ));
+        if (genres.length > 0) {
+            queries.add(queryProvider.getTermQuery("genres", genres));
 
         }
+
+        queries.add(queryProvider.getMinNumOfVotes(200000));
 
         Query query =
                 BoolQuery.of(q -> q.filter(queries))._toQuery();
@@ -115,6 +160,11 @@ public class QueryServiceImpl implements QueryService{
         return elasticsearchEngine.getQueryResult(20, query);
     }
 
+    /**
+     * Returns the NOT to watch movies
+     * @return list of movies
+     * @throws IOException
+     */
     @Override
     public List<Movie> getNotToWatchMovies() throws IOException {
         Query query =
@@ -125,6 +175,11 @@ public class QueryServiceImpl implements QueryService{
         return elasticsearchEngine.getQueryResult(25, query);
     }
 
+    /**
+     * Returns the all times recommended movies
+     * @return list of movies
+     * @throws IOException
+     */
     @Override
     public List<Movie> getAllTimesRecommended() throws IOException {
         Query query =
@@ -133,6 +188,5 @@ public class QueryServiceImpl implements QueryService{
                         queryProvider.getMinNumOfVotes(1000000)))._toQuery();
         return elasticsearchEngine.getQueryResult(20, query);
     }
-
 
 }
