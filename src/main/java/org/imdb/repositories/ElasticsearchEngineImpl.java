@@ -33,6 +33,10 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
         this.elasticSearchConfig = elasticSearchConfig;
     }
 
+    /**
+     * Created the index specifying its mapping
+     * @param input Mapping
+     */
     @Override
     public void createIndex(InputStream input) {
         try {
@@ -51,6 +55,10 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
 
     private int counter = 0;
 
+    /**
+     * Index a list of movies into elasticsearch
+     * @param movies
+     */
     @Override
     public void indexDocuments(List<Movie> movies){
         if(!movies.isEmpty()){
@@ -78,6 +86,10 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
         }
     }
 
+    /**
+     * Returns the documents indexed (default 10 documents)
+     * @return
+     */
     @Override
     public List<Movie> getDocuments() {
         SearchRequest searchRequest =  SearchRequest.of(s -> s.index
@@ -101,6 +113,10 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
         return movies;
     }
 
+    /**
+     * Deletes the index specified by its name
+     * @param indexName Index name
+     */
     @Override
     public void deleteIndex(String indexName) {
         try{
@@ -119,6 +135,11 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
         }
     }
 
+    /**
+     * Returns the information about the index
+     *
+     * @return
+     */
     @Override
     public GetIndexResponse getIndexes() {
         try {
@@ -133,7 +154,14 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
         return null;
     }
 
-
+    /**
+     * Returns the list of movies found by the query
+     *
+     * @param size of the list
+     * @param query that will search for the movies
+     * @return List of movies
+     * @throws IOException
+     */
     @Override
     public List<Movie> getQueryResult(int size, Query query) throws IOException {
 
@@ -154,6 +182,15 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
         return movies;
     }
 
+    /**
+     * Returns the list of movies found aggregated by a field
+     *
+     * @param size of the list
+     * @param query that will search for the movies
+     * @param aggregations
+     * @return List of movies
+     * @throws IOException
+     */
     @Override
     public List<Movie> getQueryResult(int size, Query query, HashMap<String,
             Aggregation> aggregations)
