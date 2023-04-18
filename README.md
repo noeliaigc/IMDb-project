@@ -4,6 +4,18 @@
 
 Search project based on IMDb using its data sets.
 
+
+### Tech Stack
+
+<div align="left">
+<img src="https://img.shields.io/badge/Java%20-%234cd137" alt="Java">
+<img src="https://img.shields.io/badge/Spring Boot%20-%23e74c3c" alt="Spring Boot">
+<img src="https://img.shields.io/badge/Elasticsearch%20-%239b59b6" alt="Elasticsearch">
+<img src="https://img.shields.io/badge/Docker%20-%231c93e4" alt="Docker">
+<img src="https://img.shields.io/badge/Maven%20-%e5923b" alt="Maven">
+</div>
+
+
 ### Installation
 
   1. Clone the repository
