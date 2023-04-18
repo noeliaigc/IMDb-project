@@ -1,20 +1,17 @@
 {
 	"settings": {
-		"analysis": {
-			"analyzer": {
-				"custom_analyzer": {
+		"analysis" : {
+			"analyzer" : {
+				"my_analyzer" : {
 					"type": "custom",
-					"tokenizer": "standard",
-					"filter": [
-						"lowercase",
-						"english_stop"
-					]
+					"tokenizer" : "standard",
+					"filter" : ["lowercase", "my_stemmer"]
 				}
 			},
-			"filter": {
-				"english_stop": {
-					"type": "stop",
-					"stopwords": "_english_"
+			"filter" : {
+				"my_stemmer" : {
+					"type" : "stemmer",
+					"language" : "english"
 				}
 			}
 		}

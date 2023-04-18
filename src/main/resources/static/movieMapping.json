@@ -8,10 +8,14 @@
 				"type": "text"
 			},
 			"primaryTitle":{
-				"type":"text"
+				"type":"text",
+				"analyzer": "my_analyzer",
+				"search_analyzer": "my_analyzer"
 			},
 			"originalTitle":{
-				"type":"text"
+				"type":"text",
+				"analyzer": "my_analyzer",
+				"search_analyzer": "my_analyzer"
 			},
 			"isAdult": {
 				"type":"boolean"
