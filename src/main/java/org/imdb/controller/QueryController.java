@@ -52,7 +52,7 @@ public class QueryController {
                     " found")})
     @GetMapping("/_search/title")
     public ResponseEntity<List<Movie>> getMoviesByTitle(@Parameter(description =
-            "Text to search for the movie", required = true)@RequestParam String title,
+            "Text to search for the movie", required = true)@RequestParam String title, @Parameter(description = "Type to be searched MOVIE, EPISODE, ALL", required = true)
                                                         @RequestParam String type){
 
         try {
