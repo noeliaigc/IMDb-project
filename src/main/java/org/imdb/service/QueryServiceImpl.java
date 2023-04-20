@@ -16,7 +16,13 @@ public class QueryServiceImpl implements QueryService{
     private final ElasticsearchEngine elasticsearchEngine;
     private QueryProvider queryProvider = new QueryProvider();
 
-    private static final String NOT_MATCH_MOVIES = " tvEpisode, video, " +
+    /*private static final String[] NOT_MATCH_MOVIES = {"tvEpisode", "video",
+            "videoGame", "tvPilot"};
+    private static final String[] MOVIES = {"short", "movie", "tvMovie", "tvShort"};
+    private static final String[] EPISODE = {"tvSeries", "tvMiniSeries",
+            "tvSpecial"};*/
+
+    private static final String NOT_MATCH_MOVIES = "tvEpisode, video, " +
             "videoGame, tvPilot";
     private static final String MOVIES = "short, movie, tvMovie, tvShort";
     private static final String EPISODE = "tvSeries, tvMiniSeries, tvSpecial";
@@ -58,7 +64,6 @@ public class QueryServiceImpl implements QueryService{
             queries.add(typeQ);
         }
         queries.add(queryProvider.getRangedQuery("avgRating", 3.0));
-        queries.add(queryProvider.getMinNumOfVotes(50000));
 
         Query query =
                 BoolQuery.of(q -> q.must(queries).mustNot(queryProvider.getMatchQuery(
@@ -196,26 +201,31 @@ public class QueryServiceImpl implements QueryService{
      * @param mustGenres
      * @param mustNotGenres
      * @param excludedIds
+     * @param types
      * @return List of movies
      * @throws IOException
      */
     @Override
     public List<Movie> getFilmsByGenres(String[] mustGenres,
                                         String[] mustNotGenres,
-                                        String[] excludedIds) throws IOException {
+                                        String[] excludedIds,
+                                        String types) throws IOException {
         List<Query> queries = new ArrayList<>();
         if(mustGenres.length > 0){
             queries.add(queryProvider.getTermQuery("genres", mustGenres));
+        }
+
+        if(checkType(types) != null){
+            queries.add(checkType(types));
         }
 
         queries.add(queryProvider.getMinNumOfVotes(300000));
 
         Query query =
                 BoolQuery.of(b -> b.must(queries).mustNot(queryProvider
-                        .getTermQuery("genres", mustNotGenres)).mustNot(
-                                queryProvider.getTermQuery("tconst",
-                                        excludedIds)
-                ))._toQuery();
+                        .getTermQuery("genres", mustNotGenres))
+                        .mustNot(queryProvider.getTermQuery("tconst",
+                                        excludedIds)))._toQuery();
 
         return elasticsearchEngine.getQueryResult(20, query, queryProvider.getAggregations());
     }

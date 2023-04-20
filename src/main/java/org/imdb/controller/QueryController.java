@@ -147,10 +147,11 @@ public class QueryController {
                                                         @Parameter(description = "Genres that must not appear in the movies", required = true)
                                                         @RequestParam String[] mustNotGenres,
                                                         @Parameter(description = "Excluded ids of movies", required = true)
-                                                        @RequestParam String[] excludedIds){
+                                                        @RequestParam String[] excludedIds,
+                                                        @RequestParam String types){
         try{
             return ResponseEntity.ok(queryService.getFilmsByGenres(mustGenres
-                    , mustNotGenres, excludedIds));
+                    , mustNotGenres, excludedIds, types));
         }catch(IOException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
