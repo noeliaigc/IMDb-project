@@ -16,7 +16,7 @@ Search project based on IMDb using its data sets.
 </div>
 
 
-### Installation
+### Installation 
 
   1. Clone the repository
   ```
