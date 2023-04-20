@@ -32,8 +32,15 @@ Search project based on IMDb using its data sets.
    ```
   docker compose down
   ```
+ 
+### Docker images
   
-### Endpoints:
+  1. Elastic image:
+  ```
+  docker pull noeliai/imdb:version2
+  ```
+
+### Endpoints
 
   #### Index:
   
@@ -111,3 +118,4 @@ Search project based on IMDb using its data sets.
     - mustGenres -> String array which has the genres that must contain the movies to be searched.
     - mustNotGenres -> String array which has the gernes that must not contain the movies to be searched.
     - excludedIds -> String array which has the movies ids that must not be searched.
+    - types -> String with the type of the movies to be searched (ALL, EPISODE, MOVIE)
