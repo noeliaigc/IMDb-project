@@ -1,5 +1,7 @@
 package org.imdb.repositories;
 
+import co.elastic.clients.elasticsearch._types.SortOptions;
+import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch._types.analysis.Analyzer;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
@@ -8,7 +10,6 @@ import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
-import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.DeleteIndexResponse;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import co.elastic.clients.elasticsearch.indices.IndexState;
@@ -51,13 +52,6 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
             elasticSearchConfig.getElasticClient().indices().putSettings(s -> s.index(INDEX).withJson(settings));
             elasticSearchConfig.getElasticClient().indices().open(o -> o.index(INDEX));
             elasticSearchConfig.getElasticClient().indices().putMapping(m -> m.index(INDEX).withJson(input));
-            /*CreateIndexResponse cir =
-                    elasticSearchConfig.getElasticClient().indices().create(b
-                            -> b.index(
-                            INDEX).withJson(input));
-            if(cir.acknowledged()){
-                System.out.println("indexed");
-            }*/
 
         }catch(IOException e){
             System.out.println("error");
@@ -119,7 +113,7 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
             }
             return movies;
         }catch(IOException e){
-            System.out.println("error");
+            System.out.println("Couldn't be found");
         }
         return movies;
     }
@@ -175,13 +169,19 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
      */
     @Override
     public List<Movie> getQueryResult(int size, Query query) throws IOException {
-
+       SortOptions sort1 = new SortOptions.Builder().field(f -> f.field(
+               "numVotes").order(SortOrder.Desc)).build();
+       SortOptions sort2 = new SortOptions.Builder().field(f -> f.field(
+               "avgRating").order(SortOrder.Desc)).build();
 
         SearchResponse searchResponse =
                 elasticSearchConfig.getElasticClient().search(i -> i
                                 .index(INDEX)
                                 .query(query)
-                                .size(size),
+                                .size(size)
+                                .sort(sort1)
+                                .sort(sort2)
+                                ,
                         Movie.class);
 
         List<Hit<Movie>> hits = searchResponse.hits().hits();
