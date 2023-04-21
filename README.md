@@ -37,7 +37,7 @@ Search project based on IMDb using its data sets.
   
   1. Elastic image:
   ```
-  docker pull noeliai/imdb:version2
+  docker pull noeliai/imdb:version3
   ```
 
 ### Endpoints
