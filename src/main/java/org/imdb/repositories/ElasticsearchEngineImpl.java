@@ -3,7 +3,6 @@ package org.imdb.repositories;
 import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
-import co.elastic.clients.elasticsearch._types.analysis.Analyzer;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
@@ -13,8 +12,6 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.indices.DeleteIndexResponse;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import co.elastic.clients.elasticsearch.indices.IndexState;
-import co.elastic.clients.json.DelegatingDeserializer;
-import co.elastic.clients.json.ObjectDeserializer;
 import org.imdb.configuration.ElasticSearchConfig;
 import org.imdb.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +44,9 @@ public class ElasticsearchEngineImpl implements  ElasticsearchEngine{
 
             elasticSearchConfig.getElasticClient().indices().create(i -> i.index(INDEX));
             elasticSearchConfig.getElasticClient().indices().close(c -> c.index(INDEX));
-            ObjectDeserializer unwrapped = (ObjectDeserializer) DelegatingDeserializer.unwrap(Analyzer._DESERIALIZER );
-            unwrapped.setTypeProperty("type", "standard");
+            /*ObjectDeserializer unwrapped =
+                    (ObjectDeserializer) DelegatingDeserializer.unwrap(Analyzer._DESERIALIZER );
+            unwrapped.setTypeProperty("type", "standard");*/
             elasticSearchConfig.getElasticClient().indices().putSettings(s -> s.index(INDEX).withJson(settings));
             elasticSearchConfig.getElasticClient().indices().open(o -> o.index(INDEX));
             elasticSearchConfig.getElasticClient().indices().putMapping(m -> m.index(INDEX).withJson(input));
