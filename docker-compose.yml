@@ -1,9 +1,9 @@
 version: '2'
 services:
   elasticsearch:
-    image: "noeliai/imdb:version2"
+    image: "noeliai/imdb:version3"
     hostname: "elasticsearch"
-    container_name: elasticsearch-docker_
+    container_name: elasticsearch-docker_findr
     environment:
       - "discovery.type=single-node"
       - xpack.security.enabled=false
