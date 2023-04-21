@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Fixed docker">
+    <list default="true" id="1254408a-a833-4f06-af8d-a3e741676c24" name="Changes" comment="Index and some queries fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/imdb/service/QueryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/custom_analyzer.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/custom_analyzer.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -203,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681893682581</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Index and some queries fixed">
+      <created>1681992114332</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1681992114333</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -244,6 +248,23 @@
     <MESSAGE value="Some fixes of queries" />
     <MESSAGE value="Code documented" />
     <MESSAGE value="Fixed docker" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed docker" />
+    <MESSAGE value="Index and some queries fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Index and some queries fixed" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/imdb/service/ImdbServiceImpl.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/imdb/repositories/ElasticsearchEngineImpl.java</url>
+          <line>84</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
